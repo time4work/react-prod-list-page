@@ -1,0 +1,152 @@
+[
+    {
+        "name": "Oxford Brogue Shoes",
+        "category": "shoes",
+        "states": [
+            {
+                "label": "tan",
+                "price": 100,
+                "img": "img-1.jpg",
+                "icon": "img-1-icon.jpg"
+            },
+            {
+                "label": "black",
+                "price": 110,
+                "img": "img-2.jpg",
+                "icon": "img-2-icon.jpg" 
+            },
+            {
+                "label": "brown",
+                "price": 115,
+                "img": "img-3.jpg",
+                "icon": "img-3-icon.jpg" 
+            },
+            {
+                "label": "burgundy",
+                "price": 120,
+                "img": "img-4.jpg",
+                "icon": "img-4-icon.jpg" 
+            }
+        ]
+    },
+    {
+        "name": "Suede Desert Boot",
+        "category": "boot",
+        "states": [
+            {
+                "label": "navy",
+                "price": 90,
+                "img": "img-5.jpg",
+                "icon": "img-5-icon.jpg"
+            },
+            {
+                "label": "black",
+                "price": 100,
+                "img": "img-6.jpg",
+                "icon": "img-6-icon.jpg" 
+            },
+            {
+                "label": "gray",
+                "price": 95,
+                "img": "img-7.jpg",
+                "icon": "img-7-icon.jpg" 
+            }
+        ]
+    },
+    {
+        "name": "Nike Air Max 90 Essential",
+        "category": "trainers",
+        "states": [
+            {
+                "label": "black",
+                "price": 100,
+                "img": "img-8.jpg",
+                "icon": "img-8-icon.jpg"
+            },
+            {
+                "label": "gray",
+                "price": 120,
+                "img": "img-9.jpg",
+                "icon": "img-9-icon.jpg" 
+            },
+            {
+                "label": "blue",
+                "price": 115,
+                "img": "img-10.jpg",
+                "icon": "img-10-icon.jpg" 
+            }
+        ]
+    },
+    {
+        "name": "Adidas Originals Gazelle",
+        "category": "trainers",
+        "states": [
+            {
+                "label": "navy",
+                "price": 150,
+                "img": "img-11.jpg",
+                "icon": "img-11-icon.jpg"
+            },
+            {
+                "label": "black",
+                "price": 140,
+                "img": "img-12.jpg",
+                "icon": "img-12-icon.jpg" 
+            },
+            {
+                "label": "blue",
+                "price": 150,
+                "img": "img-13.jpg",
+                "icon": "img-13-icon.jpg" 
+            }
+        ]
+    },
+    {
+        "name": "Nike Viale",
+        "category": "trainers",
+        "states": [
+            {
+                "label": "gray",
+                "price": 120,
+                "img": "img-14.jpg",
+                "icon": "img-14-icon.jpg"
+            },
+            {
+                "label": "black",
+                "price": 110,
+                "img": "img-15.jpg",
+                "icon": "img-15-icon.jpg" 
+            },
+            {
+                "label": "blue",
+                "price": 100,
+                "img": "img-16.jpg",
+                "icon": "img-16-icon.jpg" 
+            }
+        ]
+    },
+    {
+        "name": "Suede Derby",
+        "category": "shoes",
+        "states": [
+            {
+                "label": "navy",
+                "price": 220,
+                "img": "img-17.jpg",
+                "icon": "img-17-icon.jpg"
+            },
+            {
+                "label": "tan",
+                "price": 210,
+                "img": "img-18.jpg",
+                "icon": "img-18-icon.jpg" 
+            },
+            {
+                "label": "black",
+                "price": 200,
+                "img": "img-19.jpg",
+                "icon": "img-19-icon.jpg" 
+            }
+        ]
+    }
+]
