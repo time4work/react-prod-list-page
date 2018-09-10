@@ -109,6 +109,11 @@ class ColorFilter extends Component {
                                             />
                                         </MenuItem>
                                     )}
+                                        <MenuItem className="color-filter--reset"
+                                            onClick={() => this.props.removeFilter()}
+                                        >
+                                        Reset
+                                        </MenuItem>
                                 </MenuList>
                             </FormGroup>
                         </ClickAwayListener>

@@ -117,6 +117,11 @@ class CategoryFilter extends Component {
                                         />
                                     </MenuItem>
                                 )}
+                                    <MenuItem className="category-filter--reset"
+                                         onClick={() => this.props.removeFilter()}
+                                    >
+                                    Reset
+                                    </MenuItem>
                                 </MenuList>
                             </FormGroup>
                         </ClickAwayListener>
