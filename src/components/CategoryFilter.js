@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 import {
     Checkbox,
     Button,
@@ -13,81 +14,140 @@ import {
     ClickAwayListener
 } from '@material-ui/core';
 
-class ColorFilter extends Component {
+import {
+    addCategoryToFilter,
+    removeCategoryFromFilter,
+    removeCategoryFilter
+} from '../actions/categories';
+
+
+class CategoryFilter extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            openCategoryMenu: false,
-            categories: []
+            openMenu: false,
         };
     }
 
     // Menu Category Filter
-    handleCategoryMenuToggle = () => {
+    handleMenuToggle = () => {
         this.setState(state => ({ 
-            openCategoryMenu: !state.openCategoryMenu 
+            openMenu: !state.openMenu 
         }));
     };
-    handleCategoryMenuClose = event => {
-        if (this.anchorCategoryEl.contains(event.target)) {
+    handleMenuClose = event => {
+        if (this.anchorEl.contains(event.target)) {
             return;
         }
-        this.setState({ openCategoryMenu: false });
+        this.setState({ openMenu: false });
     };
-    handleCategoryCheckboxChange = name => event => {
-        console.log('Category checkbox', event);
-        // this.setState({ [name]: event.target.checked });
+    handleCheckboxChange = item => event => {
+        if (event.target.checked) 
+            this.props.addCategory(item.value);
+        else
+            this.props.removeCategory(item.value);
     };
 
 
     render() {
-        <div className="category-filter">
-            <Button
-                buttonRef={node => {
-                    this.anchorCategoryEl = node;
-                }}
-                aria-owns={this.state.openCategoryMenu ? 'category-filter--list-grow' : null}
-                aria-haspopup="true"
-                onClick={this.handleCategoryMenuToggle}
-            >
-                Category Filter
-            </Button>
-            <Popper open={this.state.openCategoryMenu} anchorEl={this.anchorCategoryEl} transition disablePortal>
-            {({ TransitionProps, placement }) => (
-                <Grow
-                {...TransitionProps}
-                id="category-filter--list-grow"
-                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+        const { items, filterItems } = this.props;
+        const categories = filterItems.length === 0
+            ? items.map(i => {
+                return {
+                    value: i,
+                    checked: false
+                };
+            })
+            : items.map(i => {
+                const index = filterItems.indexOf(i);
+                if (index === -1) {
+                    return {
+                        value: i,
+                        checked: false
+                    };
+                }
+                return {
+                    value: i,
+                    checked: true
+                };
+            });
+        return (
+            <div className="category-filter">
+                <Button
+                    buttonRef={node => {
+                        this.anchorEl = node;
+                    }}
+                    aria-owns={this.state.openMenu ? 'category-filter--list-grow' : null}
+                    aria-haspopup="true"
+                    onClick={this.handleMenuToggle}
                 >
-                <Paper>
-                    <ClickAwayListener onClickAway={this.handleCategoryMenuClose}>
-                        <FormGroup row>
-                            <MenuList>
-                                {this.state.categories.map((category,index) => 
+                    Category Filter
+                </Button>
+
+                <Popper transition disablePortal
+                    open={this.state.openMenu} 
+                    anchorEl={this.anchorEl} 
+                >
+                {({ TransitionProps, placement }) => (
+                    <Grow
+                        style={{ 
+                            transformOrigin: placement === 'bottom' 
+                                ? 'center top' 
+                                : 'center bottom' 
+                        }}
+                        {...TransitionProps}
+                        id="category-filter--list-grow"
+                    >
+                    <Paper>
+                        <ClickAwayListener onClickAway={this.handleMenuClose}>
+                            <FormGroup row>
+                                <MenuList>
+                                {categories.map((category,index) => 
                                     <MenuItem key={index}  className="category-filter--item">
                                         <FormControlLabel
                                             control={
                                             <Checkbox
-                                                checked={this.state.checkedA}
-                                                onChange={this.handleCategoryCheckboxChange(category)}
-                                                value={category}
+                                                checked={category.checked}
+                                                onChange={this.handleCheckboxChange(category)}
+                                                value={category.value}
                                                 color="primary"
                                             />
                                             }
-                                            label={category.toUpperCase()}
+                                            label={category.value.toUpperCase()}
                                         />
                                     </MenuItem>
                                 )}
-                            </MenuList>
-                        </FormGroup>
-                    </ClickAwayListener>
-                </Paper>
-                </Grow>
-            )}
-            </Popper>
-        </div>
+                                </MenuList>
+                            </FormGroup>
+                        </ClickAwayListener>
+                    </Paper>
+                    </Grow>
+                )}
+                </Popper>
+            </div>
+        );
     };
 }
 
-export default ColorFilter;
+CategoryFilter.propTypes = {
+    items: PropTypes.array.isRequired,
+    filterItems: PropTypes.array.isRequired,
+    addCategory: PropTypes.func.isRequired,
+    removeCategory: PropTypes.func.isRequired,
+    removeFilter: PropTypes.func.isRequired
+};
+
+// export CategoryFilter;
+const mapStateToProps = (state) => {
+    return {
+        filterItems: state.categoryFilter
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addCategory: category => dispatch(addCategoryToFilter(category)),
+        removeCategory: category => dispatch(removeCategoryFromFilter(category)),
+        removeFilter: () => dispatch(removeCategoryFilter())
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryFilter);

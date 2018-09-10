@@ -8,22 +8,20 @@ import {
 class Product extends Component {
     constructor(props) {
         super(props);
-
-        // default state
         this.state = {
             prodState: null
         };
     }
 
     handleProdStateChange(ind) {
-        console.log(ind);
+        // console.log(ind);
         this.setState({
             prodState: ind
         });
     }
 
     render() {
-        console.log(this.props);
+        // console.log(this.props);
         const { data } = this.props;
         const { prodState } = this.state;
         

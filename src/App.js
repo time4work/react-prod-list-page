@@ -1,36 +1,44 @@
 import React, { Component } from 'react';
-// import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 
+import { fetchProductData } from './actions';
+import { performFilterDate } from './utility'
 import Menu from './components/ProdMenu';
 import Grid from './components/ProdGrid';
 
-// import store from './store';
-
 class App extends Component {
+  componentWillMount() {
+    // fetchData with redux
+    this.props.fetchData();
+  }
+
   render() {
+    const data = this.props.data;
+    const { categories, colors } = performFilterDate(data);
+
     return (
-      // <Provider store={store}>
-        <div className="App">
-          <Menu/>
-          <Grid/>
-        </div>
-      // </Provider>
+      <div className="App">
+        <Menu  colors={colors} categories={categories}/>
+        <Grid data={data}/>
+      </div>
     );
   }
 }
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <h1 className="App-title">Welcome to React</h1>
-//         </header>
-//         <p className="App-intro">
-//           To get started, edit <code>src/App.js</code> and save to reload.
-//         </p>
-//       </div>
-//     );
-//   }
-// }
 
-export default App;
+App.propTypes = {
+    data: PropTypes.array.isRequired,
+    fetchData: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        data: state.productData,
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchData: () => dispatch(fetchProductData()),
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

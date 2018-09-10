@@ -1,21 +1,22 @@
 import { combineReducers } from 'redux';
+import colorFilter from './colorFilter';
+import categoryFilter from './categoryFilter';
+import productData from './productData';
 
-import color from './color';
-import category from './category';
-
-const testReducer = (state = [], payload) => {
+const test = (state = [], payload) => {
     switch(payload.type) {
         case 'test':
-            return [...state, payload.value];
+            return payload.value;
         default:
             return state;
     }
-}
+};
 
 const rootReducer = combineReducers({
-    testReducer,
-    category,
-    color
+    test,
+    productData,
+    categoryFilter,
+    colorFilter
 });
 
 export default rootReducer;

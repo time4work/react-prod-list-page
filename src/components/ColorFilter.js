@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 import {
     Checkbox,
     Button,
@@ -8,86 +9,137 @@ import {
     Paper,
     MenuList,
     MenuItem,
-    FormControlLabel, 
+    FormControlLabel,
     FormGroup,
     ClickAwayListener
 } from '@material-ui/core';
 
+import {
+    addColorToFilter,
+    removeColorFromFilter,
+    removeColorFilter
+} from '../actions/colors';
+
+
 class ColorFilter extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            openColorMenu: false,
-            colors: []
+            openMenu: false
         };
     }
 
     // Menu Color Filter
-    handleColorMenuToggle = () => {
+    handleMenuToggle = () => {
         this.setState(state => ({ 
-            openColorMenu: !state.openColorMenu 
+            openMenu: !state.openMenu 
         }));
     };
-    handleColorMenuClose = event => {
-        if (this.anchorColorEl.contains(event.target)) {
+    handleMenuClose = event => {
+        if (this.anchorEl.contains(event.target)) {
             return;
         }
-        this.setState({ openColorMenu: false });
+        this.setState({ openMenu: false });
     };
-    handleColorCheckboxChange = name => event => {
-        console.log('Color checkbox', event);
-        // this.setState({ [name]: event.target.checked });
+    handleCheckboxChange = item => event => {
+        if (event.target.checked) 
+            this.props.addColor(item.value);
+        else
+            this.props.removeColor(item.value);
     };
 
 
     render() {
-        <div className="color-filter">
-            <Button
-                buttonRef={node => {
-                    this.anchorColorEl = node;
-                }}
-                aria-owns={this.state.openColorMenu ? 'color-filter--list-grow' : null}
-                aria-haspopup="true"
-                onClick={this.handleColorMenuToggle}
-            >
-                Color Filter
-            </Button>
-            <Popper open={this.state.openColorMenu} anchorEl={this.anchorColorEl} transition disablePortal>
-            {({ TransitionProps, placement }) => (
-                <Grow
-                {...TransitionProps}
-                id="color-filter--list-grow"
-                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+        const { items, filterItems } = this.props;
+        const colors = filterItems.length === 0
+            ? items.map(i => {
+                return {
+                    value: i,
+                    checked: false
+                };
+            })
+            : items.map(i => {
+                const index = filterItems.indexOf(i);
+                if (index === -1) {
+                    return {
+                        value: i,
+                        checked: false
+                    };
+                }
+                return {
+                    value: i,
+                    checked: true
+                };
+            });  
+        return (
+            <div className="color-filter">
+                <Button
+                    buttonRef={node => {
+                        this.anchorEl = node;
+                    }}
+                    aria-owns={this.state.openMenu ? 'color-filter--list-grow' : null}
+                    aria-haspopup="true"
+                    onClick={this.handleMenuToggle}
                 >
-                <Paper>
-                    <ClickAwayListener onClickAway={this.handleColorMenuClose}>
-                        <FormGroup row>
-                            <MenuList>
-                                {this.state.colors.map((color,index) => 
-                                    <MenuItem key={index}  className="color-filter--item">
-                                        <FormControlLabel
-                                            control={
-                                            <Checkbox
-                                                checked={this.state.checkedA}
-                                                onChange={this.handleColorCheckboxChange(color)}
-                                                value={color}
-                                                color="primary"
+                    Color Filter
+                </Button>
+                <Popper open={this.state.openMenu} anchorEl={this.anchorEl} transition disablePortal>
+                {({ TransitionProps, placement }) => (
+                    <Grow
+                    {...TransitionProps}
+                    id="color-filter--list-grow"
+                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                    >
+                    <Paper>
+                        <ClickAwayListener onClickAway={this.handleMenuClose}>
+                            <FormGroup row>
+                                <MenuList>
+                                    {colors.map((color,index) => 
+                                        <MenuItem key={index}  className="color-filter--item">
+                                            <FormControlLabel
+                                                control={
+                                                <Checkbox
+                                                    checked={color.checked}
+                                                    onChange={this.handleCheckboxChange(color)}
+                                                    value={color.value}
+                                                    color="primary"
+                                                />
+                                                }
+                                                label={color.value.toUpperCase()}
                                             />
-                                            }
-                                            label={color.toUpperCase()}
-                                        />
-                                    </MenuItem>
-                                )}
-                            </MenuList>
-                        </FormGroup>
-                    </ClickAwayListener>
-                </Paper>
-                </Grow>
-            )}
-            </Popper>
-        </div>
+                                        </MenuItem>
+                                    )}
+                                </MenuList>
+                            </FormGroup>
+                        </ClickAwayListener>
+                    </Paper>
+                    </Grow>
+                )}
+                </Popper>
+            </div>
+        );
     };
 }
 
-export default ColorFilter;
+ColorFilter.propTypes = {
+    items: PropTypes.array.isRequired,
+    filterItems: PropTypes.array.isRequired,
+    addColor: PropTypes.func.isRequired,
+    removeColor: PropTypes.func.isRequired,
+    removeFilter: PropTypes.func.isRequired
+};
+
+// export ColorFilter;
+const mapStateToProps = (state) => {
+    return {
+        filterItems: state.colorFilter
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addColor: color => dispatch(addColorToFilter(color)),
+        removeColor: color => dispatch(removeColorFromFilter(color)),
+        removeFilter: () => dispatch(removeColorFilter())
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ColorFilter);

@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
+
+// import { connect } from 'react-redux';
 // import PropTypes from "prop-types";
-
-import data from "../prod-data.json";
-
+// import data from "../prod-data.json";
 import Product from './Product';
+// import {
+//     fetchProductData
+// } from '../actions';
 
 class ProdGrid extends Component {
     render() {
-        const products = data.map((item, it) => (
+        const products = this.props.data.map((item, it) => (
             <Grid item className="prod-list--item"
                 key={it}
                 xs={12}
@@ -34,8 +37,21 @@ class ProdGrid extends Component {
     }
 }
 
+export default ProdGrid;
+
 // ProdGrid.propTypes = {
-//     classes: PropTypes.object.isRequired
+//     data: PropTypes.array.isRequired,
+//     fetchData: PropTypes.func.isRequired
 // };
 
-export default ProdGrid;
+// const mapStateToProps = (state) => {
+//     return {
+//         data: state.productData,
+//     };
+// };
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         fetchData: () => dispatch(fetchProductData()),
+//     };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(ProdGrid);
