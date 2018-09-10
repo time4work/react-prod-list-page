@@ -50,8 +50,8 @@ class CategoryFilter extends Component {
 
 
     render() {
-        const { items, filterItems } = this.props;
-        const categories = filterItems.length === 0
+        const { items, categoryFilter } = this.props;
+        const categories = categoryFilter.length === 0
             ? items.map(i => {
                 return {
                     value: i,
@@ -59,7 +59,7 @@ class CategoryFilter extends Component {
                 };
             })
             : items.map(i => {
-                const index = filterItems.indexOf(i);
+                const index = categoryFilter.indexOf(i);
                 if (index === -1) {
                     return {
                         value: i,
@@ -77,12 +77,14 @@ class CategoryFilter extends Component {
                     buttonRef={node => {
                         this.anchorEl = node;
                     }}
-                    aria-owns={this.state.openMenu ? 'category-filter--list-grow' : null}
+                    aria-owns={
+                        this.state.openMenu 
+                            ? 'category-filter--list-grow' 
+                            : null
+                    }
                     aria-haspopup="true"
                     onClick={this.handleMenuToggle}
-                >
-                    Category Filter
-                </Button>
+                > Category Filter </Button>
 
                 <Popper transition disablePortal
                     open={this.state.openMenu} 
@@ -136,7 +138,7 @@ class CategoryFilter extends Component {
 
 CategoryFilter.propTypes = {
     items: PropTypes.array.isRequired,
-    filterItems: PropTypes.array.isRequired,
+    categoryFilter: PropTypes.array.isRequired,
     addCategory: PropTypes.func.isRequired,
     removeCategory: PropTypes.func.isRequired,
     removeFilter: PropTypes.func.isRequired
@@ -145,7 +147,7 @@ CategoryFilter.propTypes = {
 // export CategoryFilter;
 const mapStateToProps = (state) => {
     return {
-        filterItems: state.categoryFilter
+        categoryFilter: state.categoryFilter
     };
 };
 const mapDispatchToProps = (dispatch) => {

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import colorFilter from './colorFilter';
+import { colorFilter, selectedColor } from './colorFilter';
 import categoryFilter from './categoryFilter';
 import productData from './productData';
 
@@ -16,7 +16,8 @@ const rootReducer = combineReducers({
     test,
     productData,
     categoryFilter,
-    colorFilter
+    colorFilter,
+    selectedColor
 });
 
 export default rootReducer;

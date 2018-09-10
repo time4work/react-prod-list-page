@@ -1,4 +1,4 @@
-export default (state = [], payload) => {
+export const colorFilter = (state = [], payload) => {
     switch(payload.type) {
         case 'PRODUCT_FILTER__ADD_COLOR':
             const result = [...state, payload.item];
@@ -16,3 +16,17 @@ export default (state = [], payload) => {
             return state;
     }
 };
+
+
+export const selectedColor = (state = '', payload) => {
+    switch(payload.type) {
+        case 'PRODUCT__SELECTED_COLOR__SELECT':
+            return payload.value;
+
+        case 'PRODUCT__SELECTED_COLOR__REMOVE':
+            return '';
+
+        default:
+            return state;
+    }
+}

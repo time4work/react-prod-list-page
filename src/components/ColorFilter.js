@@ -50,8 +50,8 @@ class ColorFilter extends Component {
 
 
     render() {
-        const { items, filterItems } = this.props;
-        const colors = filterItems.length === 0
+        const { items, colorFilter } = this.props;
+        const colors = colorFilter.length === 0
             ? items.map(i => {
                 return {
                     value: i,
@@ -59,7 +59,7 @@ class ColorFilter extends Component {
                 };
             })
             : items.map(i => {
-                const index = filterItems.indexOf(i);
+                const index = colorFilter.indexOf(i);
                 if (index === -1) {
                     return {
                         value: i,
@@ -77,18 +77,29 @@ class ColorFilter extends Component {
                     buttonRef={node => {
                         this.anchorEl = node;
                     }}
-                    aria-owns={this.state.openMenu ? 'color-filter--list-grow' : null}
+                    aria-owns={
+                        this.state.openMenu 
+                            ? 'color-filter--list-grow' 
+                            : null
+                    }
                     aria-haspopup="true"
                     onClick={this.handleMenuToggle}
+                > Color Filter </Button>
+
+                <Popper 
+                    open={this.state.openMenu}
+                    anchorEl={this.anchorEl}
+                    transition disablePortal
                 >
-                    Color Filter
-                </Button>
-                <Popper open={this.state.openMenu} anchorEl={this.anchorEl} transition disablePortal>
                 {({ TransitionProps, placement }) => (
                     <Grow
-                    {...TransitionProps}
-                    id="color-filter--list-grow"
-                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                        {...TransitionProps}
+                        id="color-filter--list-grow"
+                        style={{ 
+                            transformOrigin: placement === 'bottom' 
+                                ? 'center top' 
+                                : 'center bottom' 
+                        }}
                     >
                     <Paper>
                         <ClickAwayListener onClickAway={this.handleMenuClose}>
@@ -111,9 +122,7 @@ class ColorFilter extends Component {
                                     )}
                                         <MenuItem className="color-filter--reset"
                                             onClick={() => this.props.removeFilter()}
-                                        >
-                                        Reset
-                                        </MenuItem>
+                                        > Reset </MenuItem>
                                 </MenuList>
                             </FormGroup>
                         </ClickAwayListener>
@@ -128,16 +137,16 @@ class ColorFilter extends Component {
 
 ColorFilter.propTypes = {
     items: PropTypes.array.isRequired,
-    filterItems: PropTypes.array.isRequired,
+    colorFilter: PropTypes.array.isRequired,
     addColor: PropTypes.func.isRequired,
     removeColor: PropTypes.func.isRequired,
     removeFilter: PropTypes.func.isRequired
 };
 
-// export ColorFilter;
+// get ColorFilter;
 const mapStateToProps = (state) => {
     return {
-        filterItems: state.colorFilter
+        colorFilter: state.colorFilter
     };
 };
 const mapDispatchToProps = (dispatch) => {

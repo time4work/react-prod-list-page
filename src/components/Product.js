@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import PropTypes from "prop-types";
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 
 import { 
     Typography 
@@ -14,30 +15,51 @@ class Product extends Component {
     }
 
     handleProdStateChange(ind) {
-        // console.log(ind);
         this.setState({
             prodState: ind
         });
     }
 
+    componentDidUpdate(prevProps, prevState){
+        const { data, prefColor } = this.props;
+        if (prefColor !== prevProps.prefColor) {
+            if (!prefColor)
+                this.setState({
+                    prodState: null
+                });
+            else {
+                if (data && data.states)
+                    for (let i=0; i<data.states.length; i++) {
+                        console.log(data.states[i].label === prefColor);
+                        if (data.states[i].label === prefColor) {
+                            this.setState({
+                                prodState: i
+                            });
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+
     render() {
-        // console.log(this.props);
         const { data } = this.props;
         const { prodState } = this.state;
-        
+
         // take first if prodState is default
-        const prodStateIndex = prodState ? prodState : 0;
+        let prodStateIndex = prodState ? prodState : 0;
 
         const prodImg = `img/${data.states[prodStateIndex].img}`;
         const prodPrice = data.states[prodStateIndex].price;
 		const prodColors = data.states.map((s, index) => (
-			<li key={index} 
+			<li key={index}
                 className={
                     index===prodStateIndex
                         ? "prod--stage-selected"
                         : ""
-                }
-            >
+                }>
                 <img
                     className={`prod--color`}
                     onClick={this.handleProdStateChange.bind(this, index)}
@@ -56,10 +78,15 @@ class Product extends Component {
                         </a>
                     </div>
                     <div className="prod--name">
-                        <Typography variant='subheading' color='inherit'>
+                        <Typography variant='headline' color='inherit'>
                             <a href="#">
                                 {data.name}
                             </a>
+                        </Typography>
+                    </div>
+                    <div className="prod--category">
+                        <Typography variant='subheading' color='inherit'>
+                            {`< ${data.category} >`}
                         </Typography>
                     </div>
                     <div className="prod--price">
@@ -79,8 +106,25 @@ class Product extends Component {
     }
 }
 
-// ResponsiveGrid.propTypes = {
-//   classes: PropTypes.object.isRequired
-// };
 
-export default Product;
+Product.defaultProps = {
+    data: {
+        name: '',
+        category: '',
+        states: []
+    }
+};
+Product.propTypes = {
+    prefColor: PropTypes.string.isRequired
+};
+
+// get last selected color;
+const mapStateToProps = (state) => {
+    return {
+        prefColor: state.selectedColor
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Product);
