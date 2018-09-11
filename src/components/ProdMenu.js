@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 import {
     AppBar,
     Toolbar,
@@ -6,7 +8,7 @@ import {
     Button,
 } from '@material-ui/core';
 
-import actions from '../actions';
+import { removeFilter } from '../actions';
 import ColorFilter from './ColorFilter';
 import CategoryFilter from './CategoryFilter';
 
@@ -31,8 +33,8 @@ class ProdMenu extends Component {
                         <ColorFilter items={this.props.colors} />
                         <CategoryFilter items={this.props.categories} />
                         <div className="test-btn">
-                            <Button onClick={actions['test']}>
-                                Test
+                            <Button onClick={() => this.props.removeFilter()}>
+                                Reset Filters
                             </Button>
                         </div>
 
@@ -43,4 +45,18 @@ class ProdMenu extends Component {
     }
 }
 
-export default ProdMenu;
+// export default ProdMenu;
+ProdMenu.propTypes = {
+    removeFilter: PropTypes.func.isRequired
+};
+
+// export CategoryFilter;
+const mapStateToProps = (state) => {
+    return {};
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        removeFilter: () => dispatch(removeFilter())
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ProdMenu);

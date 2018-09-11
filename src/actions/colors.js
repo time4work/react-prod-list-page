@@ -18,7 +18,7 @@ export function removeColorFromFilter(color) {
     };
 }
 
-export function removeColorFilter(items) {
+export function removeColorFilter() {
     return (dispatch, getState) => {
         dispatch({
             type: 'PRODUCT_FILTER__REMOVE_COLOR_FILTER'

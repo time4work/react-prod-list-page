@@ -1,11 +1,14 @@
-export function test() {
+export function removeFilter() {
     return (dispatch, getState) => {
-            setTimeout(() => {
-                dispatch({
-                    type: 'test',
-                    value: 'T E S T I N G 3'
-                });
-            }, 1000);
+        dispatch({
+            type: 'PRODUCT_FILTER__REMOVE_COLOR_FILTER'
+        });
+        dispatch({
+            type: 'PRODUCT__SELECTED_COLOR__REMOVE'
+        });
+        dispatch({
+            type: 'PRODUCT_FILTER__REMOVE__CATEGORY_FILTER'
+        });
     };
 };
 export function fetchProductData() {
@@ -17,6 +20,6 @@ export function fetchProductData() {
 }
 
 export default {
-    test,
+    removeFilter,
     fetchProductData
 };

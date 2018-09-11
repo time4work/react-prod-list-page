@@ -21,6 +21,7 @@ class Product extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
+        console.log(this.props, prevProps);
         const { data, prefColor } = this.props;
         if (prefColor !== prevProps.prefColor) {
             if (!prefColor)
@@ -30,7 +31,6 @@ class Product extends Component {
             else {
                 if (data && data.states)
                     for (let i=0; i<data.states.length; i++) {
-                        console.log(data.states[i].label === prefColor);
                         if (data.states[i].label === prefColor) {
                             this.setState({
                                 prodState: i
@@ -41,7 +41,6 @@ class Product extends Component {
             }
         }
     }
-
 
 
     render() {
