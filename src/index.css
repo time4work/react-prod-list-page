@@ -82,3 +82,8 @@ li.category-filter--item label {
 .prod--stage ul li.prod--stage-selected {
     border-color: black;
 }
+
+.prod-menu > *:first-child {
+    background: #5d4c4b;
+    box-shadow: inset 0px -5px 2px #e0e0e0;
+}

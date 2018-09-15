@@ -2,6 +2,7 @@ export default (state = [], payload) => {
     switch(payload.type) {
         case 'PRODUCT_FILTER__ADD_CATEGORY':
             const result = [...state, payload.item];
+            // filter dublicats
             return result.filter(function(item, index) {
                 return result.indexOf(item) === index;
             });

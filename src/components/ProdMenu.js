@@ -30,8 +30,8 @@ class ProdMenu extends Component {
                 </AppBar>
                 <AppBar position='static' color="default">
                     <Toolbar>
-                        <ColorFilter items={this.props.colors} />
                         <CategoryFilter items={this.props.categories} />
+                        <ColorFilter items={this.props.colors} />
                         <div className="test-btn">
                             <Button onClick={() => this.props.removeFilter()}>
                                 Reset Filters
